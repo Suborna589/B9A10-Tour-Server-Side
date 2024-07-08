@@ -30,7 +30,7 @@ async function run() {
     await client.connect();  
 
  const spotCollection=client.db('spotDB').collection('spot'); 
-
+  const userCollection=client.db("userDB").collection('user');
 
 app.get('/spot',async(req,res)=>{
   const cursor=spotCollection.find();
@@ -87,6 +87,15 @@ app.get('/spot/:id', async(req,res)=>{
     const id=req.params.id;
     const query={_id: new ObjectId (id)}; 
     const result=await spotCollection.deleteOne(query);
+    res.send(result);
+  }) 
+
+  //user  related apis
+  
+  app.post('/users',async(req,res)=>{
+    const user=req.body;
+    console.log(user);
+    const result=await userCollection.insertOne(user);
     res.send(result);
   })
 
